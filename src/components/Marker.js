@@ -49,12 +49,71 @@ class Marker extends Component {
             setTimeout(function () {
                 marker.setAnimation(null);
             }, 500);
+            //Request related TIPs and Photos by Foursquare API
+            let venueId = null;
+            let tipsList = null;
+            let ClientID = 'QOB1KS5RBLWEVVKEVHNPW5GLPUDWVV5FE3AQ0NZMLQ3OXAWC';
+            let  ClientSecret = 'RY0DR5P3PWQH3BQQBBYIIQ5T11XTJWLWFURBUMBXM4HM1KNI';
+            let  api = 'https://api.foursquare.com';
+           //let v = '20180731';
+            fetch(`${api}/v2/venues/search?30.0444196,31.2357116&v=20180731&query=flower&limit=1&client_id=${ClientID}&client_secret=${ClientSecret}`)
+                .then(response => response.json())
+                .then(data => {
+                    venueId = data.response.venues[0].id;
+                    return fetch(`${api}/v2/venues/${venueId}/tips?v=20180731&limit=4&client_id=${ClientID}&client_secret=${ClientSecret}`);
+                })
+                .then(response => response.json())
+                .then(dataTips => {
+                    tipsList = dataTips;
+                    return fetch(`${api}/v2/venues/${venueId}/photos?v=20180731&limit=2&client_id=${ClientID}&client_secret=${ClientSecret}`);
+                })
+                .then(response => response.json())
+                .then(dataPhotos => addVenuesInfos(tipsList, dataPhotos))
+                .catch(err => requestError(err, 'Foursquare'));
 
+            //if sucess in Request
+            function addVenuesInfos(tipsList, dataPhotos) {
+                let showInfo = '';
+
+                if (tipsList && tipsList.response.tips.items) {
+                    const tipsData = tipsList.response.tips.items;
+                    const photosData = dataPhotos.response.photos.items;
+                    showInfo = '<div class="infowindow-content"><h4>' + title + '</h4>';
+
+                    //Photos
+                    showInfo += '<h6> Some Photos </h6> <div id="photos-places">';
+                    for (let i = 0; i < photosData.length; i++) {
+                        const photo = photosData[i];
+                        showInfo += `<img alt="${title}, photo ${i + 1} by a visitor" style="width: 30%; margin-right: 5px;" src="${photo.prefix}150x150${photo.suffix}" />`;
+                    }
+
+                    //Tips
+                    showInfo += '</div><h6> Some Tips for location </h6> <ul id="tips-places">';
+                    tipsData.forEach(tip => {
+                        showInfo += '<li>' + tip.text + ' </li>';
+                    })
+                    showInfo += '</ul> <p style="float: right; padding-right: 10px;"><i><small>provided by Foursquare</small></i></p> </div>';
+                } else {
+                    showInfo = '<p> no <i>TIPs</i> was returned for your search.</p>';
+                }
+                infowindow.setContent(showInfo);
+            }
+            //if Error in Request
+            function requestError(err, part) {
+                console.log(err);
+                infowindow.setContent(`<p> Oh! There was an error for the ${part}.</p>`);
+            }
+            infowindow.marker = marker;
+
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function () {
+                infowindow.marker = null;
+            });
 
             infowindow.setContent('Loading...');
                   
-            showInsideInfow += 
-                '<div class ="info"> <h1> 🎕  ' + title + ' 🎕  <h1/> <p>' + address + '<br/> <hr/>' + crossStreet+'<p></div>';
+          //  showInsideInfow += 
+          //      '<div class ="info"> <h1> 🎕  ' + title + ' 🎕  <h1/> <p>' + address + '<br/> <hr/>' + crossStreet+'<p></div>';
             infowindow.setContent(showInsideInfow);
             infowindow.open(map, marker);
             map.fitBounds(bounds);
