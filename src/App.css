@@ -1,0 +1,269 @@
+* {
+  box-sizing: border-box;
+}
+
+.map-container {
+  top:80px;
+  background-color: #7C807F
+}
+.info{
+  font-size: 50px
+}
+.info h1{
+font-size: 15px;
+text-align: center;
+}
+.info p{
+font-size: 15px;
+margin-left: 10px;
+color: #009788
+}
+
+/* Start  Header */
+.navbar {
+  top: 0;
+  position: fixed;
+  z-index: 100;
+  display: block;
+  background-color: #353233;
+  margin-bottom: 0px;
+  width:100%;
+  display:flex;
+  flex-wrap: wrap;
+  height:80px
+}
+
+.header-menu {
+  display: inline-block;
+  right: 0;
+  margin-left: 20px
+}
+a#menu svg {
+  width: 70px;
+  fill: #999999;
+  cursor: pointer;
+}
+.nav-title {
+  color:#fff;
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Kirang Haerang', cursive;
+  width: 100%;
+  margin-left: 250px;
+  margin-top: 15px
+}
+.nav-title span{color: #009788}
+/* End  Header */
+
+/* Start sidebar */
+.list-box {
+  position: fixed;
+  margin-top: 30px;
+  background: #353233;
+  /* background-color: rgb(37, 37, 37);*/
+
+  color: #fff;
+  border: 1px solid #999;
+ /* border-radius: 3px;*/
+  top: 87px;
+  height: calc(100% - 50px);
+  padding: 15px 24px 30px 10px;
+  text-align: left;
+  width: 270px;
+  z-index: 1;
+  position: absolute;
+  -webkit-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
+   overflow-y: scroll;
+   transition: 0.8s;
+  /* box-shadow: 1px 1px 1px #FD0292;*/
+ 
+
+}
+
+.list-box.open {
+  -webkit-transform: translate(0px, 0);
+  transform: translate(0px, 0);
+}
+.close-box-btn {
+  cursor: pointer;
+  float: left;
+  color: #2D333B;
+  padding: 10px 10px;
+  background-color: #FFFEFF;
+  height: 40px;
+  width: 50px;
+  margin-top: 0px;
+  font-size: 20px;
+  /*border-color: #027532;*/
+  text-align: center;
+  margin-left: 188px;
+  font-weight: bold;
+  border-radius:4px;
+  /*border-top-color: #FD0292;
+  border-bottom-color: #FD0292;*/
+  
+}
+.close-box-btn:hover{
+  font-size: 17px;
+  transition: .5s
+
+}
+/* Start  input filter */
+.form-group input:focus {
+  border: 2px solid #009788;
+  width:200px;
+ transition: 0.8s;
+}
+.form-control {
+  display: block;
+  width: 85%;
+  padding: 6px 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #353235;
+  background-color: #fff;
+  border-radius: 20px;
+  margin-top: 60px;
+  margin-left: 15px;
+  border: 2px solid #999;
+  height: 46px;
+  background-color: #fff
+  /*width: 100%;*/
+  /*box-shadow: 3px 5px 5px #FD0292;*/
+  
+  
+
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #009788;
+    opacity: .5; /* Firefox */
+}
+
+.sidebar-content {
+  width: 100%;
+  color: #7C807F;
+ /* font-weight: bold*/
+ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+
+}
+#list-of-places {
+  list-style: none;
+  padding-left: 5px;
+  width: 200px
+
+}
+#list-of-places li:hover {
+background-color: #009788;
+border-bottom: none;
+color: #fff;
+transition: .5s;
+border-radius: 3px;
+margin-left: 5px
+}
+#list-of-places li {
+  padding: 10px 0;
+ /* border-bottom: 5px #FD0292 solid;*/
+  /*border-bottom: 1px #7C807F solid;*/
+  cursor: pointer;
+  width: 100%
+
+}
+
+/* End sidebar */
+
+/* HandelError */
+.error {
+  margin-top: 130px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  background-color:#FD0292;
+  color: #fff;
+  border-radius: 15px;
+}
+/* HandelError */
+.infowindow-content {
+  width: 100%;
+  max-width: 225px;
+  background-color: #FD0292
+}
+
+/*  Responsive */
+
+@media screen and (max-width: 768px) {
+
+.nav-title {
+  font-size: 30px;
+  margin-left: 100px;
+}
+.info{
+  font-size: 30px
+}
+.info h1{
+font-size: 10px;
+}
+.info p{
+font-size: 10px;
+
+}
+}
+
+@media screen and (max-width: 425px) {
+
+.nav-title {
+ display: none
+}
+.form-control {
+  margin-top: 45px;
+  height: 30px;
+}
+.list-box {
+  width: 200px;
+}
+.form-group input:focus {
+  width:150px;
+}
+.sidebar-content {
+  width: 100%;
+  font-size: 10px;
+  margin-top: 0px
+}
+#list-of-places {
+  padding-left: 20px;
+   width: 150px
+}
+#list-of-places li {
+  padding: 5px 0;
+/*  border-bottom: 2px #FD0292 solid;
+  border-bottom: 2px #01c152 solid;*/
+}
+
+.close-box-btn {
+  padding: 5px 5px;
+  height: 30px;
+  width: 30px;
+  font-size: 10px;
+  border-color: #027532;
+  margin-left: 120px; 
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+   font-size: 10px
+}
+.info{
+  font-size: 20px
+}
+.info h1{
+font-size: 7px;
+
+}
+.info p{
+font-size: 7px;
+
+}
+
+}
+
+/*************************************************/
+/*  🥀 ⁕  ⚘*/
