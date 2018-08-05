@@ -64,7 +64,7 @@ class Marker extends Component {
 
     makeMarkerIcon(markerColor) {
         var markerImage = new this.props.google.maps.MarkerImage(
-            'https://s22.postimg.cc/3zaweimfl/31045296_2060577330885679_610565395383844864_n.jpg' + markerColor +
+            'https://s33.postimg.cc/wy9yg23bj/31070973_2060577387552340_1560286190421147648_n.jpg' + markerColor +
             '|40|_|%E2%80%A2',
             new this.props.google.maps.Size(50, 50),
             new this.props.google.maps.Point(0, 0),
