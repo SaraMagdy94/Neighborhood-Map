@@ -61,7 +61,7 @@ class Marker extends Component {
          //  let v = "20182507";
             let  v = "20180731";
 
-            fetch(`https://api.foursquare.com/v2/venues/search?ll=30.0444196,31.2357116&query=${title}&limit=1&client_id=${data.client_id}&client_secret=${data.client_secret}&v=v`)
+            fetch(`https://api.foursquare.com/v2/venues/search?ll=30.0444196,31.2357116&query=flower&limit=1&client_id=${data.client_id}&client_secret=${data.client_secret}&v=v`)
                 .then(response => response.json())
                 .then(data => {
                     venueId = data.response.venues[0].id;
