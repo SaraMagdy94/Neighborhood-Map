@@ -1,0 +1,9 @@
+
+
+// Map API KEY
+
+export const API_KEY = 'AIzaSyAmaZOaOXDljDzMahqTN6ypkaBiGU0yll0'
+
+// Foursquare API 
+export const client_id = 'QOB1KS5RBLWEVVKEVHNPW5GLPUDWVV5FE3AQ0NZMLQ3OXAWC'
+export const client_secret = 'RY0DR5P3PWQH3BQQBBYIIQ5T11XTJWLWFURBUMBXM4HM1KNI'
