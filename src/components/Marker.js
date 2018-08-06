@@ -1,5 +1,8 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types'
+
 //import * as placeLocations from '../placeLocations'
+import * as data from '../data/credentials'
 
 class Marker extends Component {
     
@@ -16,6 +19,8 @@ class Marker extends Component {
         if (this.marker) {
             this.marker.setMap(null);
         }
+
+
         let { map, google, position, bounds, showInfoWindow, currentMarker } = this.props;
         let pos = position;
         position = new google.maps.LatLng(pos.lat, pos.lng);
@@ -40,7 +45,7 @@ class Marker extends Component {
     }
 
     populateInfoWindow(marker, infowindow) {
-        let showInsideInfow = '';
+      //  let showInsideInfow = '';
         // If infowindow is not opened on the marker.
         if (infowindow.marker !== marker) {
             let { map, google, bounds, title, address, crossStreet} = this.props;
@@ -49,23 +54,30 @@ class Marker extends Component {
             setTimeout(function () {
                 marker.setAnimation(null);
             }, 500);
+            infowindow.setContent('Loading...');
+
             //Request related TIPs and Photos by Foursquare API
+
             let venueId = null;
             let tipsList = null;
-            let ClientID = 'QOB1KS5RBLWEVVKEVHNPW5GLPUDWVV5FE3AQ0NZMLQ3OXAWC';
-            let  ClientSecret = 'RY0DR5P3PWQH3BQQBBYIIQ5T11XTJWLWFURBUMBXM4HM1KNI';
-            let  api = 'https://api.foursquare.com';
+            let lat = '30.0444196';
+            let lng= '31.2357116';
+            let type ='flower';
+            const api = "https://api.foursquare.com"
+
            //let v = '20180731';
-            fetch(`${api}/v2/venues/search?30.0444196,31.2357116&v=20180731&query=flower&limit=1&client_id=${ClientID}&client_secret=${ClientSecret}`)
+            const AddDataParam = `limit=15&ll=${lat},${lng}&query=${title}&client_id=${data.client_id}&limit=15&client_secret=${data.client_secret}&v=20180731`;
+            const VenueDetailsParam =`group=venue&client_id=${data.client_id}&limit=15&client_secret=${data.client_secret}&v=20180731`;
+            fetch(`${api}/v2/venues/search?${AddDataParam}`)
                 .then(response => response.json())
                 .then(data => {
                     venueId = data.response.venues[0].id;
-                    return fetch(`${api}/v2/venues/${venueId}/tips?v=20180731&limit=4&client_id=${ClientID}&client_secret=${ClientSecret}`);
+                    return fetch(`${api}/v2/venues/${venueId}/tips?${VenueDetailsParam}`);
                 })
                 .then(response => response.json())
                 .then(dataTips => {
                     tipsList = dataTips;
-                    return fetch(`${api}/v2/venues/${venueId}/photos?v=20180731&limit=2&client_id=${ClientID}&client_secret=${ClientSecret}`);
+                    return fetch(`${api}/v2/venues/${venueId}/photos?${VenueDetailsParam}`);
                 })
                 .then(response => response.json())
                 .then(dataPhotos => addVenuesInfos(tipsList, dataPhotos))
@@ -89,11 +101,13 @@ class Marker extends Component {
 
                     //Tips
                     showInfo += '</div><h6> Some Tips for location </h6> <ul id="tips-places">';
-                    tipsData.forEach(tip => {
-                        showInfo += '<li>' + tip.text + ' </li>';
+                    tipsData.forEach(tips=> {
+                        showInfo += '<li>' + tips.text + ' </li>';
                     })
                     showInfo += '</ul> <p style="float: right; padding-right: 10px;"><i><small>provided by Foursquare</small></i></p> </div>';
-                } else {
+                }
+                
+                else {
                     showInfo = '<p> no <i>TIPs</i> was returned for your search.</p>';
                 }
                 infowindow.setContent(showInfo);
@@ -110,11 +124,12 @@ class Marker extends Component {
                 infowindow.marker = null;
             });
 
-            infowindow.setContent('Loading...');
-                  
+
+           // infowindow.setContent(showInfo);
+
           //  showInsideInfow += 
           //      '<div class ="info"> <h1> 🎕  ' + title + ' 🎕  <h1/> <p>' + address + '<br/> <hr/>' + crossStreet+'<p></div>';
-            infowindow.setContent(showInsideInfow);
+          //  infowindow.setContent(showInsideInfow);
             infowindow.open(map, marker);
             map.fitBounds(bounds);
         }
@@ -139,3 +154,6 @@ class Marker extends Component {
 }
 
 export default Marker;
+Marker.propTypes = {
+    map: PropTypes.object
+}
